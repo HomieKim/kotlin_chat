@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "193109429968",
+    "project_id": "android-chat-beb18",
+    "storage_bucket": "android-chat-beb18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193109429968:android:2a9546803d800c56f698d5",
+        "android_client_info": {
+          "package_name": "com.example.term_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193109429968-m37tuts3qfomj28fvsgrn449aam4qvf2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2O2QxeAWuhRBhvEfsFIO1mCiJ3Z93fcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193109429968-m37tuts3qfomj28fvsgrn449aam4qvf2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
