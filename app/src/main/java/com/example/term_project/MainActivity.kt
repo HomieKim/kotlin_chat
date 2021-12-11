@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import com.example.term_project.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
@@ -38,11 +40,26 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG,"성공")
+                        val uid = auth.uid ?: ""
+                        val user = User(uid, editUsername.text.toString())
+
+                        // 데이터베이스에 넣음
+                        val db = Firebase.firestore.collection("users")
+                        db.document(uid)
+                            .set(user)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "데이터베이스 성공")
+                            }
+                            .addOnFailureListener {
+                                Log.d(TAG, "데이터베이스 실패")
+                            }
+
                         val intent = Intent(this,LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     } else {
                         Log.d(TAG,"실패")
+                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     }
                 }
         }

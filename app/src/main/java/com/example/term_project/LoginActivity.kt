@@ -32,8 +32,8 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-
                         Log.d(TAG, "signInWithEmail:success")
+                        // database에 유저정보 넣어 줘야함
                         val intent = Intent(this,ChatListActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
