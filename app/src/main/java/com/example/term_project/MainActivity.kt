@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import com.example.term_project.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         editUsername = findViewById<EditText>(R.id.editUsername)
         editPw = findViewById<EditText>(R.id.editPw)
         auth = Firebase.auth
+
 
         joinBtn.setOnClickListener {
             val email =  editEmail.text.toString()
