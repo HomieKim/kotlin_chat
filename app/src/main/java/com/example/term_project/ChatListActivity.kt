@@ -1,5 +1,6 @@
 package com.example.term_project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +21,6 @@ class ChatListActivity : AppCompatActivity() {
 
         val adapter = GroupAdapter<GroupieViewHolder>()
 
-
         db.collection("users")
             .get()
             .addOnSuccessListener { result ->
@@ -34,5 +34,9 @@ class ChatListActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
+        adapter.setOnItemClickListener { item, view ->
+            val intent = Intent(this, ChatRoomActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
