@@ -6,12 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ChatListActivity">
 
+    <Button
+        android:id="@+id/myChatList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:text="ChatList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </Button>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_list"
         android:layout_width="334dp"
         android:layout_height="594dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="68dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
