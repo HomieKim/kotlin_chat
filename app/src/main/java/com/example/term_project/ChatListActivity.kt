@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.term_project.Model.User
 import com.example.term_project.Model.UserItem
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,7 +26,7 @@ class ChatListActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    adapter.add(UserItem(document.get("username").toString()))
+                    adapter.add(UserItem(document.get("username").toString(), document.get("uid").toString()))
                     Log.d(TAG, document.get("username").toString())
                     Log.d(TAG, "${document.id} => ${document.data}")
                 }
@@ -35,7 +36,12 @@ class ChatListActivity : AppCompatActivity() {
                 Log.w(TAG, "Error getting documents.", exception)
             }
         adapter.setOnItemClickListener { item, view ->
+
+            val uid = (item as UserItem).uid
+            val name = (item as UserItem).name
             val intent = Intent(this, ChatRoomActivity::class.java)
+            intent.putExtra("setUid", uid)
+            intent.putExtra("setName", name)
             startActivity(intent)
         }
     }
