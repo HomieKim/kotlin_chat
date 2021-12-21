@@ -11,6 +11,9 @@
         android:theme="@style/Theme.Term_project"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MyroomActivity"
+            android:exported="true" />
+        <activity
             android:name=".ChatRoomActivity"
             android:exported="true" />
         <activity

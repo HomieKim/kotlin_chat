@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import com.example.term_project.Model.User
 import com.example.term_project.Model.UserItem
 import com.google.firebase.firestore.ktx.firestore
@@ -15,12 +16,19 @@ import kotlinx.android.synthetic.main.activity_chat_list.*
 class ChatListActivity : AppCompatActivity() {
 
     val db = Firebase.firestore
+    lateinit var chatListBtn : Button
     private  val TAG = ChatListActivity::class.java.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_list)
 
+        chatListBtn = findViewById<Button>(R.id.myChatList)
         val adapter = GroupAdapter<GroupieViewHolder>()
+
+        chatListBtn.setOnClickListener {
+            val intent = Intent(this, MyroomActivity::class.java)
+            startActivity(intent)
+        }
 
         db.collection("users")
             .get()
@@ -44,5 +52,7 @@ class ChatListActivity : AppCompatActivity() {
             intent.putExtra("setName", name)
             startActivity(intent)
         }
+
+
     }
 }
