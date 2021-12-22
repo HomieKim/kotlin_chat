@@ -19,6 +19,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        title = "로그인"
+
         auth = Firebase.auth
 
         val email_ = findViewById<EditText>(R.id.login_Email)
@@ -33,13 +35,11 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "signInWithEmail:success")
-                        // database에 유저정보 넣어 줘야함
-                        val intent = Intent(this,ChatListActivity::class.java)
+                        val intent = Intent(this,CreateActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
 
                     } else {
-
                         Log.d(TAG, "signInWithEmail:failure", task.exception)
 
                     }

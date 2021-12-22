@@ -8,6 +8,7 @@ import android.widget.EditText
 import com.example.term_project.Model.ChatLeft
 import com.example.term_project.Model.ChatModel
 import com.example.term_project.Model.ChatRight
+import com.example.term_project.Model.ListModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -28,6 +29,7 @@ class ChatRoomActivity : AppCompatActivity() {
     lateinit var button : Button
     private  val TAG = ChatRoomActivity::class.java.simpleName
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_room)
@@ -36,12 +38,19 @@ class ChatRoomActivity : AppCompatActivity() {
         button = findViewById<Button>(R.id.button)
         auth = Firebase.auth
 
+        val database = Firebase.database
+        val room_title = intent.getStringExtra("setTitle").toString() // 채팅방 제목
+        val myUid = auth.uid.toString()    // 로그인한 사람 uid
+        val getUid = intent.getStringExtra("setUid").toString() // 현재 채팅방 uid
+        val getName = intent.getStringExtra("setName").toString() // 현재 채팅방 username
+        val myUserName = intent.getStringExtra("user").toString() // 로그인한 사람 username
+        val db = Firebase.firestore
 
-        val myUid = auth.uid
-        val getUid = intent.getStringExtra("setUid")
-        val getName = intent.getStringExtra("setName")
+        title = room_title
 
         val adapter = GroupAdapter<GroupieViewHolder>()
+
+
         // 채팅이 들어가면 넣음, db에서 불러옴
 //        val db = Firebase.firestore
 //        db.collection("message")
@@ -67,20 +76,28 @@ class ChatRoomActivity : AppCompatActivity() {
 //        adapter.add(ChatLeft())
 
 
-        val database = Firebase.database
+
         val myRef = database.getReference("message")
-        val readRef = database.getReference("message").child(myUid.toString()).child(getUid.toString())
+        val readRef = database.getReference("message").child(getUid)
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val model = snapshot.getValue(ChatModel::class.java)
                 val msg = model?.message.toString()
-                val who = model?.who
+                val chkUid = model?.myUid.toString()
+                val name = model?.who.toString()
 
-                if(who.equals("me")){
-                    adapter.add(ChatRight(msg))
+                if(myUid == chkUid){
+                    adapter.add(ChatRight(msg, name))
                 }else{
-                    adapter.add(ChatLeft(msg))
+                    adapter.add(ChatLeft(msg, name))
                 }
+//                val who = model?.who
+//
+//                if(who.equals("me")){
+//                    adapter.add(ChatRight(msg, myUserName))
+//                }else{
+//                    adapter.add(ChatLeft(msg, getName))
+//                }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -109,11 +126,15 @@ class ChatRoomActivity : AppCompatActivity() {
         button.setOnClickListener {
             val message = edit.text.toString()
             edit.setText("")
-            val chat = ChatModel(myUid.toString(), getUid.toString(), message, System.currentTimeMillis(), "me")
-            myRef.child(myUid.toString()).child(getUid.toString()).push().setValue(chat)
-            // 받은 메세지
-            val chat_get = ChatModel(getUid.toString(), myUid.toString(), message, System.currentTimeMillis(), "other")
-            myRef.child(getUid.toString()).child(myUid.toString()).push().setValue(chat_get)
+            val chat = ChatModel(myUid, getUid, message, System.currentTimeMillis(), myUserName)
+            myRef.child(getUid).push().setValue(chat)
+            db.collection(myUserName+"_list").document(getUid).set(ListModel(getName,room_title,getUid))
+
+//            val chat = ChatModel(myUid.toString(), getUid.toString(), message, System.currentTimeMillis(), "me")
+//            myRef.child(myUid.toString()).child(getUid.toString()).push().setValue(chat)
+//            // 받은 메세지
+//            val chat_get = ChatModel(getUid.toString(), myUid.toString(), message, System.currentTimeMillis(), "other")
+//            myRef.child(getUid.toString()).child(myUid.toString()).push().setValue(chat_get)
 
 //            val message = edit.text.toString()
 //            edit.setText("")

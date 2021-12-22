@@ -5,7 +5,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.chat_right.view.*
 
-class ChatRight(val msg : String) : Item<GroupieViewHolder>() {
+class ChatRight(val msg : String, val username : String) : Item<GroupieViewHolder>() {
 
     override fun getLayout(): Int {
         return R.layout.chat_right
@@ -13,6 +13,7 @@ class ChatRight(val msg : String) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.right_message.text = msg
+        viewHolder.itemView.my_name.text = username
     }
 
 }

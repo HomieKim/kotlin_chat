@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        title= "회원가입"
+
         loginBtn = findViewById<Button>(R.id.login)
         joinBtn = findViewById<Button>(R.id.joinBtn)
         editEmail = findViewById<EditText>(R.id.editEmail)
